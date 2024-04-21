@@ -37,14 +37,24 @@ dt_dic={'pair': pair,
 	'status_entry': 'NA',
 	'order_buy_id': 'NA',
 	'order_sell_id': 'NA',
+	'size_usd': 50,
 	'size_vol': size_quote/np.asarray(entries),
 	'current_price': 'NA'
 	}
 		
 trading_table = pd.DataFrame(dt_dic)
 
-mpl.plot(dt, type = 'candle', hlines = dict(hlines = entries, linewidths = 0.4, colors = 'g'))
+#mpl.plot(dt, type = 'candle', hlines = dict(hlines = entries, linewidths = 0.4, colors = 'g'))
 
 while all_closed==False:
-	dat = pull_OHLC(pair = pair, interval = interval)
+	last_price=pull_OHLC(pair = pair, interval = '1')['Close'][-1]
+	trading_table.loc[last_price <= trading_table['entries'], 'status_entry'] = "Entered"
+	sum_vol_entered = sum(trading_table.loc[trading_table['status_entry']=="Entered", 'size_vol'])
+	sum_usd_entered = sum(trading_table.loc[trading_table['status_entry']=="Entered", 'size_usd'])
+	sum_usd_current = sum_vol_entered*last_price
+	current_eval_percent = ((sum_usd_current-sum_usd_entered)/sum_usd_entered)*100
+	trading_table.loc[0, 'current_price'] = last_price
+	print(trading_table)
+	print(current_eval_percent)
+
 	time.sleep(5)
