@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 
 def ws_open(ws):
-    #ws.send('{"event":"subscribe","pair":["XBT/USD"], "subscription": {"name":"ohlc"}}')
+    #ws.send('{"event":"subscribe","pair":["XBT/USD"], "subscription": {"name":"ohlc|book"} }')
 	ws.send('{"event":"subscribe","pair":["XBT/USD"], "subscription": {"name":"book", "depth":100}}')
 
 def ws_message(ws, message):
