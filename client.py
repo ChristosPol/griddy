@@ -30,7 +30,7 @@ t = threading.Thread(target=wsthread, args=(closes,))
 t.start()
 
 fig, ax = plt.subplots()
-plt.axis([0, 1000, 62000, 70000])
+plt.axis([0, 1000, 45000, 70000])
 x= np.arange(1000)
 y=[np.nan] * 1000
 line, = ax.plot(x, y, linewidth = 2, color = "green")
